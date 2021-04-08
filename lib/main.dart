@@ -1,4 +1,6 @@
+import 'package:assets/provider/assetProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -8,22 +10,40 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+    return ChangeNotifierProvider<AssetProvider>(
+        create: (context) => AssetProvider(),
+        child: MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            // This is the theme of your application.
+            //
+            // Try running your application with "flutter run". You'll see the
+            // application has a blue toolbar. Then, without quitting the app, try
+            // changing the primarySwatch below to Colors.green and then invoke
+            // "hot reload" (press "r" in the console where you ran "flutter run",
+            // or simply save your changes to "hot reload" in a Flutter IDE).
+            // Notice that the counter didn't reset back to zero; the application
+            // is not restarted.
+            primarySwatch: Colors.blue,
+          ),
+          home: MyHomePage(title: 'Flutter Demo Home Page'),
+        ));
+    // return MaterialApp(
+    //   title: 'Flutter Demo',
+    //   theme: ThemeData(
+    //     // This is the theme of your application.
+    //     //
+    //     // Try running your application with "flutter run". You'll see the
+    //     // application has a blue toolbar. Then, without quitting the app, try
+    //     // changing the primarySwatch below to Colors.green and then invoke
+    //     // "hot reload" (press "r" in the console where you ran "flutter run",
+    //     // or simply save your changes to "hot reload" in a Flutter IDE).
+    //     // Notice that the counter didn't reset back to zero; the application
+    //     // is not restarted.
+    //     primarySwatch: Colors.blue,
+    //   ),
+    //   home: MyHomePage(title: 'Flutter Demo Home Page'),
+    // );
   }
 }
 
@@ -48,7 +68,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {
+  void _incrementCounter() async {
+    Provider.of<AssetProvider>(context, listen: false).fetch();
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -93,9 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
+            Text(Provider.of<AssetProvider>(context).assets[_counter].asset),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
