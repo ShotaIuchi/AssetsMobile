@@ -1,8 +1,11 @@
 import 'package:assets/provider/assetProvider.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -31,8 +34,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<AssetProvider>(context, listen: false).fetch();
+  }
+
   void _incrementCounter() async {
     Provider.of<AssetProvider>(context, listen: false).fetch();
+    setState(() {});
   }
 
   @override
