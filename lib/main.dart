@@ -12,11 +12,11 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider<AssetProvider>(
         create: (context) => AssetProvider(),
         child: MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Assets',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: MyHomePage(title: 'Flutter Demo Home Page'),
+          home: MyHomePage(title: 'Assets'),
         ));
   }
 }
