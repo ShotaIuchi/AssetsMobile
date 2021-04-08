@@ -95,38 +95,31 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title!),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(Provider.of<AssetProvider>(context).assets[_counter].asset),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
+          // Center is a layout widget. It takes a single child and positions it
+          // in the middle of the parent.
+          child: ListView.separated(
+              itemBuilder: (BuildContext context, int index) {
+                return AssetList(
+                  index: index,
+                );
+              },
+              separatorBuilder: (context, index) =>
+                  Divider(color: Colors.black),
+              itemCount: Provider.of<AssetProvider>(context).assets.length)),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+}
+
+class AssetList extends StatelessWidget {
+  final int index;
+  AssetList({Key key, @required this.index}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Text("${this.index}");
   }
 }
