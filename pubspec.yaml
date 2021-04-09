@@ -27,7 +27,8 @@ dependencies:
   provider: any
 
   firebase_core: ^1.0.3
-  firebase_analytics: ^7.1.1
+  # webだとエラーになる
+  #firebase_analytics: ^7.1.1
   firebase_auth: ^1.0.3
   cloud_firestore: ^1.0.4
 
