@@ -2,10 +2,13 @@ import 'package:assets/provider/assetProvider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  initializeDateFormatting('ja');
   runApp(MyApp());
 }
 
@@ -76,10 +79,77 @@ class AssetList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final asset = Provider.of<AssetProvider>(context).assets[this.index];
-    //Text(Provider.of<AssetProvider>(context).assets[this.index].asset);
-    return ListTile(
-      title: Text(asset.asset),
-      subtitle: Text(asset.qr),
-    );
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+      Expanded(
+          child: ListTile(
+        title: Text(asset.asset),
+        subtitle: asset.accessorise.isEmpty
+            ? Text("付属品なし")
+            : Text(asset.accessorise.toString()),
+      )),
+      Expanded(
+          child: Table(
+        //border: TableBorder.all(),
+        columnWidths: const <int, TableColumnWidth>{
+          0: IntrinsicColumnWidth(),
+          1: FlexColumnWidth(),
+        },
+        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+        children: <TableRow>[
+          TableRow(
+            children: <Widget>[
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text("管理期限"),
+              ),
+              Center(
+                  child: asset.deadline == null
+                      ? Text("期限未設定")
+                      : Text(DateFormat.yMMMd('ja').format(asset.deadline!))),
+            ],
+          ),
+          TableRow(
+            children: <Widget>[
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text("管理番号"),
+              ),
+              Center(
+                child: asset.control.isEmpty ? Text("-") : Text(asset.control),
+              ),
+            ],
+          ),
+          TableRow(
+            children: <Widget>[
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text("識別番号"),
+              ),
+              Center(
+                child: asset.identification.isEmpty
+                    ? Text("-")
+                    : Text(asset.identification),
+              ),
+            ],
+          ),
+          TableRow(
+            children: <Widget>[
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text("QR番号"),
+              ),
+              Center(
+                child: asset.qr.isEmpty ? Text("-") : Text(asset.qr),
+              ),
+            ],
+          ),
+        ],
+      )),
+      Expanded(
+        child: ListTile(
+          trailing: Icon(Icons.more_vert),
+        ),
+      ),
+    ]);
   }
 }
