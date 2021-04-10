@@ -161,6 +161,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.3"
+  kotlin_flavor:
+    dependency: "direct main"
+    description:
+      name: kotlin_flavor
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
   matcher:
     dependency: transitive
     description:
