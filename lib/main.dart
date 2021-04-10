@@ -75,6 +75,11 @@ class AssetList extends StatelessWidget {
   AssetList({Key? key, required this.index}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Text(Provider.of<AssetProvider>(context).assets[this.index].asset);
+    final asset = Provider.of<AssetProvider>(context).assets[this.index];
+    //Text(Provider.of<AssetProvider>(context).assets[this.index].asset);
+    return ListTile(
+      title: Text(asset.asset),
+      subtitle: Text(asset.qr),
+    );
   }
 }
