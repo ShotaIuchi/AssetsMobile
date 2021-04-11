@@ -121,7 +121,34 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.orange,
         title: Text(widget.title!),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Image.asset("images/logo.png"),
+              //child: Text('アセッツ')
+            ),
+            ListTile(
+              leading: Icon(Icons.list),
+              title: Text('一覧'),
+            ),
+            ListTile(
+              leading: Icon(Icons.check),
+              title: Text('棚卸し'),
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('設定'),
+            ),
+          ],
+        ),
       ),
       body: Center(
           child: ListView.separated(
