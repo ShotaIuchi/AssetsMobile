@@ -74,9 +74,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+Text switchWidget(String def, String? target) {
+  return target == null || target.isEmpty ? Text(def) : Text(target);
+}
+
 class AssetList extends StatelessWidget {
   final int index;
   AssetList({Key? key, required this.index}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final asset = Provider.of<AssetProvider>(context).assets[this.index];
@@ -88,10 +93,15 @@ class AssetList extends StatelessWidget {
             Expanded(
               child: ListTile(
                   title: Text(asset.asset),
-                  subtitle: asset.accessorise.isEmpty
-                      ? Text("付属品なし")
-                      : Text((asset.accessorise.toString())
-                          .let((self) => self.substring(1, self.length - 1)))),
+                  subtitle: ListTile(
+                      title: asset.user.isEmpty
+                          ? Text("| 未使用")
+                          : Text("| " + asset.user),
+                      subtitle: asset.accessorise.isEmpty
+                          ? Text("| 付属品なし")
+                          : Text("| " +
+                              (asset.accessorise.toString()).let((self) =>
+                                  self.substring(1, self.length - 1))))),
             ),
             Expanded(
                 child: Table(
@@ -106,12 +116,12 @@ class AssetList extends StatelessWidget {
                   children: <Widget>[
                     Align(
                       alignment: Alignment.centerRight,
-                      child: Text("管理期限"),
+                      child: Text("期限"),
                     ),
                     Center(
                         child: asset.deadline == null
                             ? Text("期限未設定")
-                            : Text(DateFormat.yMMMd('ja')
+                            : Text(DateFormat('yy/MM/dd')
                                 .format(asset.deadline!))),
                   ],
                 ),
@@ -119,7 +129,7 @@ class AssetList extends StatelessWidget {
                   children: <Widget>[
                     Align(
                       alignment: Alignment.centerRight,
-                      child: Text("管理番号"),
+                      child: Text("管理"),
                     ),
                     Center(
                       child: asset.control.isEmpty
@@ -132,7 +142,7 @@ class AssetList extends StatelessWidget {
                   children: <Widget>[
                     Align(
                       alignment: Alignment.centerRight,
-                      child: Text("識別番号"),
+                      child: Text("識別"),
                     ),
                     Center(
                       child: asset.identification.isEmpty
@@ -145,7 +155,7 @@ class AssetList extends StatelessWidget {
                   children: <Widget>[
                     Align(
                       alignment: Alignment.centerRight,
-                      child: Text("QR番号"),
+                      child: Text("QR"),
                     ),
                     Center(
                       child: asset.qr.isEmpty ? Text("-") : Text(asset.qr),
